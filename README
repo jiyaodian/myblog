@@ -1,1 +1,15 @@
-== blog
+== 发布命令 ==
+
+ghp-improt output
+git push https://github.com/jiyaodian/jiyaodian.github.io.git gh-pages:master
+
+
+或者
+git remote add site https://github.com/jiyaodian/jiyaodian.github.io.git
+git push site gh-pages:master
+
+
+或者
+git checkout gh-pages
+然后add想要的
+then git push site gh-pages

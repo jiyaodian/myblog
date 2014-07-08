@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = u'jyd'
-SITENAME = u'\u6211\u6765\u6211\u5f80'
+AUTHOR = u'我来我往'
+SITENAME = u'我来我往'
 SITEURL = ''
 
 PATH = 'content'
@@ -19,9 +19,7 @@ TRANSLATION_FEED_ATOM = None
 
 # Blogroll
 LINKS = ((u'旧博客', 'http://jyd.me/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+         ('王宇的博客', 'http://blog.hellofe.com/'),)
 
 # Social widget
 SOCIAL = (('You can add links in your config file', '#'),
@@ -34,3 +32,8 @@ ARTICLE_URL = '{category}/{slug}.html'
 ARTICLE_SAVE_AS = '{category}/{slug}.html'
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+
+DUOSHUO_SITENAME = "jydblog"
+DUOSHUO_ID_PREFIX = "duoshuo_"
+PYGMENTS_STYLE = "colorful"
+HIDE_SIDEBAR = True

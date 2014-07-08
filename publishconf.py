@@ -19,6 +19,8 @@ CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 DELETE_OUTPUT_DIRECTORY = True
 
 # Following items are often useful when publishing
-
+DUOSHUO_SITENAME = "jydblog"
+DUOSHUO_ID_PREFIX = "duoshuo_"
+HIDE_SIDEBAR = TRUE
 #DISQUS_SITENAME = ""
 #GOOGLE_ANALYTICS = ""
