@@ -2,7 +2,7 @@ Title:  Markdown 语法
 Slug: markdown-syntax
 Date: 2014-07-07 13:20:27
 Tags: markdown
-Category: technology
+Category: 未分类
 Author: jyd
 Lang: zh
 Summary: markdown 常用语法 
