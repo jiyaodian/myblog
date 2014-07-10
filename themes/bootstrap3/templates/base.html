@@ -121,7 +121,7 @@
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ SITEURL }}/{{ ARCHIVES_URL | default('archives.html') }}"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+                <li><a href="{{ SITEURL }}/{{ ARCHIVES_URL | default('archives.html') }}"><i class="fa fa-th-list"></i><span class="icon-label">文章列表</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -155,15 +155,17 @@
 </div>
 {% include 'includes/footer.html' %}
 
-<script src="{{ SITEURL }}/theme/js/jquery.min.js"></script>
+<!-- <script src="{{ SITEURL }}/theme/js/jquery.min.js"></script> -->
+<script src="http://libs.useso.com/js/jquery/1.11.1/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{{ SITEURL }}/theme/js/bootstrap.min.js"></script>
+<!-- <script src="{{ SITEURL }}/theme/js/bootstrap.min.js"></script> -->
+<script src="http://libs.useso.com/js/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="{{ SITEURL }}/theme/js/respond.min.js"></script>
-
-{% include 'includes/ga.html' %}
-{% include 'includes/piwik.html' %}
+<!-- <script src="{{ SITEURL }}/theme/js/respond.min.js"></script> -->
+<script src="http://libs.useso.com/js/respond.js/1.1.0/respond.min.js"></script>
+{% include 'includes/duoshuo.html' %}
+{% include 'includes/baidutongji.html' %}
 </body>
 </html>

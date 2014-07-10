@@ -1,8 +1,13 @@
 body {
     padding-top: 70px;
     background-color: #f8f8f8;
+    line-height: 27px;
+    font-size: 16px;
 }
 
+.panel {
+    background-color: #f8f8f8;
+}
 #sidebar .list-group, #sidebar .list-group-item {
     background-color: transparent;
 }

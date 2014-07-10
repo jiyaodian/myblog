@@ -11,33 +11,6 @@
             <div class="ds-thread" data-thread-key="{{ page.slug }}" data-title="{{ page.title }}" data-url="{{ page.url }}"></div>
         {% endif %}
 
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var duoshuo_shortname = '{{ DUOSHUO_SITENAME }}'; // required: replace example with your forum shortname
 
-            {% if article %}
-                {% if not DUOSHUO_NO_ID %}
-                    var disqus_identifier = '{{ article.date|strftime('%Y-%m-') ~ article.slug if DUOSHUO_ID_PREFIX else article.slug }}';
-                {% endif %}
-                var disqus_url = '{{ SITEURL }}/{{ article.url }}';
-            {% elif page %}
-                {% if not DISQUS_NO_ID %}
-                    var disqus_identifier = 'page-{{ page.slug }}';
-                {% endif %}
-                var disqus_url = '{{ SITEURL }}/{{ page.url }}';
-            {% endif %}
-
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            /* 多说公共JS代码 start (一个网页只需插入一次) */
-        var duoshuoQuery = {short_name:"jydblog"};
-            (function() {
-                var ds = document.createElement('script');
-                ds.type = 'text/javascript';ds.async = true;
-                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                ds.charset = 'UTF-8';
-                (document.getElementsByTagName('head')[0] 
-                 || document.getElementsByTagName('body')[0]).appendChild(ds);
-            })();
-        </script>
     </section>
 {% endif %}

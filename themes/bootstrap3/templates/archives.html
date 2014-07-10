@@ -1,23 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Archives - {{ SITENAME }}{% endblock %}
+{% block title %}文章列表 - {{ SITENAME }}{% endblock %}
 {% block breadcrumbs %}
     {% if DISPLAY_BREADCRUMBS %}
     <ol class="breadcrumb">
         <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
-        <li class="active">Archives</li>
+        <li class="active">历史文章</li>
     </ol>
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <section id="content">
-        <h1>Archives for {{ SITENAME }}</h1>
-
-        <dl>
+        <h3>文章列表</h3>
+        <ul class="list-unstyled">
             {% for article in dates %}
-                <dt>{{ article.locale_date }}</dt>
-                <dd><a href='{{ SITEURL }}/{{ article.url }}'>{{ article.title }}</a></dd>
+                <li>{{ article.locale_date }} &nbsp;&nbsp;>&nbsp;&nbsp;<a href='{{ SITEURL }}/{{ article.url }}'>{{ article.title }}</a></li>
             {% endfor %}
-        </dl>
+        </ul>
     </section>
 {% endblock %}
