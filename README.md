@@ -16,12 +16,15 @@ then git push site gh-pages
 
 
 ### 环境
+```shell
 pip install pelican
 pip install markdown
-
+```
 
 当commit到git的时候，自动提交到github上
+
 添加git的hook。
+
 添加以下内容到文件 .git/hooks/post-commit
 ```shell
 pelican content -o output -s pelicanconf.py && ghp-import output && git push origin gh-pages
