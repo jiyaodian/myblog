@@ -1,4 +1,4 @@
-== 发布命令 ==
+### 发布命令
 
 ghp-improt output
 git push https://github.com/jiyaodian/jiyaodian.github.io.git gh-pages:master
@@ -15,7 +15,7 @@ git checkout gh-pages
 then git push site gh-pages
 
 
-== 环境 ==
+### 环境
 pip install pelican
 pip install markdown
 
@@ -23,7 +23,7 @@ pip install markdown
 当commit到git的时候，自动提交到github上
 添加git的hook。
 添加以下内容到文件 .git/hooks/post-commit
-```
+```shell
 pelican content -o output -s pelicanconf.py && ghp-import output && git push origin gh-pages
 git push origin master
 ```
