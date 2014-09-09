@@ -50,7 +50,10 @@ DATE_FORMATS = {
 }
 DISPLAY_CATEGORIES_ON_MENU = False
 
-STATIC_PATHS = ['images', 'extra/CNAME']
-EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
+STATIC_PATHS = ['images', 'extra/CNAME', 'extra/favicon.ico']
+EXTRA_PATH_METADATA = {
+        'extra/CNAME': {'path': 'CNAME'},
+        'extra/favicon.ico': {'path': 'favicon.ico'}
+        }
 
 BAIDU_TONGJI = True
