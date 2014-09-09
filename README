@@ -13,3 +13,8 @@ git push site gh-pages:master
 git checkout gh-pages
 然后add想要的
 then git push site gh-pages
+
+
+== 环境 ==
+pip install pelican
+pip install markdown
