@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>tag2 - 我来我往</title>
+    <title>ipython 自动加载代码 - 我来我往</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,10 +12,15 @@
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="我来我往" />
-            <meta property="og:type" content="website"/>
-            <meta property="og:title" content="我来我往"/>
-            <meta property="og:url" content=""/>
-            <meta property="og:description" content="我来我往"/>
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="ipython 自动加载代码"/>
+            <meta property="og:url" content="/tools/ipython-auto-reload-code.html"/>
+            <meta property="og:description" content="ipython自动加载最新代码，方便测试。"/>
+            <meta property="article:published_time" content="2014-09-09" />
+                <meta property="article:section" content="tools" />
+                <meta property="article:tag" content="ipython" />
+                <meta property="article:tag" content="tools" />
+                <meta property="article:author" content="jyd" />
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
@@ -61,97 +66,71 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-lg-12">
 
-            <article>
-                <h2><a href="/wei-fen-lei/test2.html">第2篇测试文章</a></h2>
-                <div class="summary"><p>sumary有什么用啊，显示在哪里啊</p>
-                    <a class="btn btn-default btn-xs" href="/wei-fen-lei/test2.html">more ...</a>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/tools/ipython-auto-reload-code.html"
+                       rel="bookmark"
+                       title="Permalink to ipython 自动加载代码">
+                        ipython 自动加载代码
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">时间</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-09-09T17:44:02"> 2014-09-09</time>
+    </span>
+
+        <span class="label label-default">类别</span>
+        <a href="/category/tools.html">tools</a>
+
+
+<span class="label label-default">标签</span>
+	<a href="/tag/ipython.html">ipython</a>
+        /
+	<a href="/tag/tools.html">tools</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
+                <div class="highlight"><pre><span class="nx">In</span> <span class="cp">[</span><span class="mi">1</span><span class="cp">]</span><span class="o">:</span> <span class="o">%</span><span class="nx">load_ext</span> <span class="nx">autoreload</span>
 
-        </div>
-        <div class="col-sm-3 well well-sm" id="sidebar">
+<span class="nx">In</span> <span class="cp">[</span><span class="mi">2</span><span class="cp">]</span><span class="o">:</span> <span class="o">%</span><span class="nx">autoreload</span> <span class="mi">2</span>
 
-<aside>
-    <section>
-        <ul class="list-group list-group-flush">
+<span class="nx">In</span> <span class="cp">[</span><span class="mi">3</span><span class="cp">]</span><span class="o">:</span> <span class="nx">from</span> <span class="nx">foo</span> <span class="kr">import</span> <span class="nx">some_function</span>
+
+<span class="nx">In</span> <span class="cp">[</span><span class="mi">4</span><span class="cp">]</span><span class="o">:</span> <span class="nx">some_function</span><span class="p">()</span>
+<span class="nx">Out</span><span class="cp">[</span><span class="mi">4</span><span class="cp">]</span><span class="o">:</span> <span class="mi">42</span>
+
+<span class="nx">In</span> <span class="cp">[</span><span class="mi">5</span><span class="cp">]</span><span class="o">:</span> <span class="err">#</span> <span class="nx">open</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">py</span> <span class="k">in</span> <span class="nx">an</span> <span class="nx">editor</span> <span class="nx">and</span> <span class="nx">change</span> <span class="nx">some_function</span> <span class="nx">to</span> <span class="k">return</span> <span class="mi">43</span>
+
+<span class="nx">In</span> <span class="cp">[</span><span class="mi">6</span><span class="cp">]</span><span class="o">:</span> <span class="nx">some_function</span><span class="p">()</span>
+<span class="nx">Out</span><span class="cp">[</span><span class="mi">6</span><span class="cp">]</span><span class="o">:</span> <span class="mi">43</span>
+</pre></div>
 
 
-                <li class="list-group-item"><a href="/"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">类别</span></h4></a>
-                    <ul class="list-group" id="categories">
-                        <li class="list-group-item">
-                            <a href="/category/review.html">
-                                <i class="fa fa-folder-open fa-lg"></i> Review
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="/category/technology.html">
-                                <i class="fa fa-folder-open fa-lg"></i> technology
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="/category/tools.html">
-                                <i class="fa fa-folder-open fa-lg"></i> tools
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="/category/wei-fen-lei.html">
-                                <i class="fa fa-folder-open fa-lg"></i> 未分类
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+<p><a href="http://ipython.org/ipython-doc/2/config/extensions/autoreload.html">http://ipython.org/ipython-doc/2/config/extensions/autoreload.html</a></p>
+            </div>
+            <!-- /.entry-content -->
+    <hr/>
+    <section class="comments" id="comments">
+        <div id="disqus_thread"></div>
+        <!-- 多说评论框 start -->
+            <div class="ds-thread" data-thread-key="ipython-auto-reload-code" data-title="ipython 自动加载代码" data-url="tools/ipython-auto-reload-code.html"></div>
 
-                <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">标签</span></h4></a>
-                    <ul class="list-group " id="tags">
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/tag1.html">
-                                tag1
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/tools.html">
-                                tools
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/markdown.html">
-                                markdown
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/ipython.html">
-                                ipython
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="/tag/tag2.html">
-                                tag2
-                            </a>
-                        </li>
-                    </ul>
-                </li>    
-    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">链接</span></h4>
-      <ul class="list-group" id="links">
-        <li class="list-group-item">
-            <a href="http://jyd.me/" target="_blank">
-                旧博客
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://blog.hellofe.com/" target="_blank">
-                王宇的博客
-            </a>
-        </li>
-      </ul>
-    </li>
 
-        </ul>
+
+    </section>
+        </article>
     </section>
 
-</aside>        </div>
+        </div>
     </div>
 </div>
 <footer>

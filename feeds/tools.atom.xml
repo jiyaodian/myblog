@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>我来我往</title><link href="/" rel="alternate"></link><link href="http://blog.jyd.me/feeds/tools.atom.xml" rel="self"></link><id>/</id><updated>2014-09-09T17:44:02+08:00</updated><entry><title>ipython 自动加载代码</title><link href="/tools/ipython-auto-reload-code.html" rel="alternate"></link><updated>2014-09-09T17:44:02+08:00</updated><author><name>jyd</name></author><id>tag:,2014-09-09:tools/ipython-auto-reload-code.html</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;In&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nx"&gt;load_ext&lt;/span&gt; &lt;span class="nx"&gt;autoreload&lt;/span&gt;
+
+&lt;span class="nx"&gt;In&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nx"&gt;autoreload&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+
+&lt;span class="nx"&gt;In&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="nx"&gt;foo&lt;/span&gt; &lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;some_function&lt;/span&gt;
+
+&lt;span class="nx"&gt;In&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;some_function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="nx"&gt;Out&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;
+
+&lt;span class="nx"&gt;In&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="nx"&gt;open&lt;/span&gt; &lt;span class="nx"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;py&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nx"&gt;an&lt;/span&gt; &lt;span class="nx"&gt;editor&lt;/span&gt; &lt;span class="nx"&gt;and&lt;/span&gt; &lt;span class="nx"&gt;change&lt;/span&gt; &lt;span class="nx"&gt;some_function&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;43&lt;/span&gt;
+
+&lt;span class="nx"&gt;In&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;some_function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="nx"&gt;Out&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;43&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://ipython.org/ipython-doc/2/config/extensions/autoreload.html"&gt;http://ipython.org/ipython-doc/2/config/extensions/autoreload.html&lt;/a&gt;&lt;/p&gt;</summary><category term="ipython"></category><category term="tools"></category></entry></feed>
