@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>文章列表 - 我来我往</title>
+    <title>My First Review - 我来我往</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,10 +12,13 @@
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="我来我往" />
-            <meta property="og:type" content="website"/>
-            <meta property="og:title" content="我来我往"/>
-            <meta property="og:url" content=""/>
-            <meta property="og:description" content="我来我往"/>
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="My First Review"/>
+            <meta property="og:url" content="/review/my-first-review.html"/>
+            <meta property="og:description" content="Following is a review of my favorite mechanical keyboard."/>
+            <meta property="article:published_time" content="2010-12-03" />
+                <meta property="article:section" content="Review" />
+                <meta property="article:author" content="我来我往" />
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
@@ -64,13 +67,47 @@
         <div class="col-lg-12">
 
     <section id="content">
-        <h3>文章列表</h3>
-        <ul class="list-unstyled">
-                <li>2014-07-10 &nbsp;&nbsp;>&nbsp;&nbsp;<a href='/wei-fen-lei/test2.html'>第2篇测试文章</a></li>
-                <li>2014-07-07 &nbsp;&nbsp;>&nbsp;&nbsp;<a href='/wei-fen-lei/markdown-syntax.html'>Markdown 语法</a></li>
-                <li>2010-12-03 &nbsp;&nbsp;>&nbsp;&nbsp;<a href='/review/my-first-review.html'>My First Review</a></li>
-        </ul>
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/review/my-first-review.html"
+                       rel="bookmark"
+                       title="Permalink to My First Review">
+                        My First Review
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">时间</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2010-12-03T10:20:00"> 2010-12-03</time>
+    </span>
+
+        <span class="label label-default">类别</span>
+        <a href="/category/review.html">Review</a>
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Following is a review of my favorite mechanical keyboard.</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr/>
+    <section class="comments" id="comments">
+        <div id="disqus_thread"></div>
+        <!-- 多说评论框 start -->
+            <div class="ds-thread" data-thread-key="my-first-review" data-title="My First Review" data-url="review/my-first-review.html"></div>
+
+
+
     </section>
+        </article>
+    </section>
+
         </div>
     </div>
 </div>

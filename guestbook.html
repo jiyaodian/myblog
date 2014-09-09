@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>文章列表 - 我来我往</title>
+    <title>留言板 - 我来我往</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,10 +12,9 @@
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="我来我往" />
-            <meta property="og:type" content="website"/>
-            <meta property="og:title" content="我来我往"/>
-            <meta property="og:url" content=""/>
-            <meta property="og:description" content="我来我往"/>
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="留言板"/>
+            <meta property="og:url" content="/guestbook.html"/>
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
@@ -47,7 +46,7 @@
                          <li><a href="/about.html">
                              关于
                           </a></li>
-                         <li><a href="/guestbook.html">
+                         <li class="active"><a href="/guestbook.html">
                              留言板
                           </a></li>
             </ul>
@@ -63,13 +62,20 @@
     <div class="row">
         <div class="col-lg-12">
 
-    <section id="content">
-        <h3>文章列表</h3>
-        <ul class="list-unstyled">
-                <li>2014-07-10 &nbsp;&nbsp;>&nbsp;&nbsp;<a href='/wei-fen-lei/test2.html'>第2篇测试文章</a></li>
-                <li>2014-07-07 &nbsp;&nbsp;>&nbsp;&nbsp;<a href='/wei-fen-lei/markdown-syntax.html'>Markdown 语法</a></li>
-                <li>2010-12-03 &nbsp;&nbsp;>&nbsp;&nbsp;<a href='/review/my-first-review.html'>My First Review</a></li>
-        </ul>
+    <section id="content" class="body">
+        <!-- <h1 class="entry-title">留言板</h1> -->
+        
+        <div class="entry-content">
+            
+    <hr/>
+    <section class="comments" id="comments">
+        <div id="disqus_thread"></div>
+
+            <div class="ds-thread" data-thread-key="guestbook" data-title="留言板" data-url="guestbook.html"></div>
+
+
+    </section>
+        </div>
     </section>
         </div>
     </div>
