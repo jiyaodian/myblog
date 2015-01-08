@@ -5,6 +5,18 @@ body {
     font-size: 16px;
 }
 
+html {
+  font-family: 微软雅黑,"Raleway",Verdana,sans-serif,Open Sans, MundoSans, "Helvetica Neue", Arial, Helvetica, "PT Serif", Georgia, "Times New Roman", serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 微软雅黑,"Raleway",Verdana,sans-serif,Open Sans, MundoSans, "Helvetica Neue", Arial, Helvetica, "PT Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #313131;
+  letter-spacing: -.025rem;
+}
+
+
 .panel {
     background-color: #f8f8f8;
 }
