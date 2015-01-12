@@ -1,8 +1,10 @@
 body {
+    font-family: 微软雅黑,"Raleway",Verdana,sans-serif,Open Sans, MundoSans, "Helvetica Neue", Arial, Helvetica, "PT Serif", Georgia, "Times New Roman", serif;
     padding-top: 70px;
     background-color: #f8f8f8;
     line-height: 27px;
-    font-size: 16px;
+    font-size: 18px;
+    color: #515151;
 }
 
 html {
@@ -92,6 +94,7 @@ a, a:hover {
 .entry-content a {
     text-decoration: none;
     border-bottom: 1px dotted;
+    color: #428bca;
 }
 
 .entry-content a:hover {
@@ -107,6 +110,25 @@ a, a:hover {
 .entry-content figcaption, .caption {
     font-size: small;
     margin-bottom: 2px;
+}
+
+.entry-content h1, .entry-content h2 {
+    background-color: #f8f8f8;
+    border-left: thick solid #5f9ea0;
+    color: #4682b4;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 40px 0 10px;
+    padding: 10px 0 10px 10px;
+}
+
+.entry-content h3, .entry-content h4 {
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
 }
 
 .floatright, .align-right {
