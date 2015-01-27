@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>我来我往</title><link>/</link><description></description><atom:link href="/feeds/jyd.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 25 Sep 2014 09:24:45 +0800</lastBuildDate><item><title>mysql的字符</title><link>/technology/mysql-char.html</link><description>&lt;p&gt;在mysql里面，我们把字段定义成char(10)或者varchar(10)的时候，我们定义的是10个字符。&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>我来我往的博客</title><link>/</link><description>Follow Your Heart</description><atom:link href="http://blog.jyd.me/feeds/jyd.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 25 Sep 2014 09:24:45 +0800</lastBuildDate><item><title>mysql的字符</title><link>/technology/mysql-char.html</link><description>&lt;p&gt;在mysql里面，我们把字段定义成char(10)或者varchar(10)的时候，我们定义的是10个字符。&lt;/p&gt;
 &lt;p&gt;在mysql里面，对于ASCII，每个字符占用1byte；对于UTF-8，每个字符占用3byte。&lt;/p&gt;
 &lt;p&gt;所以varchar(10)是可以保存10个中文的。&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://stackoverflow.com/questions/10081500/mysql-char-varchar-character-sets-storage-sizes"&gt;http://stackoverflow.com/questions/10081500/mysql-char-varchar-character-sets-storage-sizes&lt;/a&gt;&lt;/p&gt;
