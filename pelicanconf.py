@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = u'我来我往'
-SITENAME = u'我来我往'
+AUTHOR = u'jyd'
+SITENAME = u'我来我往的博客'
+import os
 SITEURL = ''
-#SITEURL = 'http://blog.jyd.me'
 
 PATH = 'content'
 
@@ -24,11 +24,15 @@ LINKS = ((u'旧博客', 'http://jyd.me/'),
 
 DEFAULT_PAGINATION = 10
 
-THEME = "themes/bootstrap3"
+THEME = "themes/pelican-elegant"
+SITESUBTITLE = 'Follow Your Heart'
+CSS_FILE = 'screen.css'
+METADATA = '记录、分享技术信息'
 ARTICLE_URL = '{category}/{slug}.html'
 ARTICLE_SAVE_AS = '{category}/{slug}.html'
 PAGE_URL = '{slug}.html'
 PAGE_SAVE_AS = '{slug}.html'
+RECENT_POST_COUNT = 1
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
