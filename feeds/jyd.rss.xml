@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>我来我往的博客</title><link>/</link><description>Follow Your Heart</description><atom:link href="http://blog.jyd.me/feeds/jyd.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 12 Feb 2015 11:22:25 +0800</lastBuildDate><item><title>用D3.js画K线图</title><link>/ui/k-chart-by-d3.html</link><description>&lt;h3&gt;前言&lt;/h3&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>我来我往的博客</title><link>/</link><description>Follow Your Heart</description><atom:link href="blog.jyd.me/feeds/jyd.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 12 Feb 2015 11:22:25 +0800</lastBuildDate><item><title>用D3.js画K线图</title><link>/ui/k-chart-by-d3.html</link><description>&lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;本来想用echart库来画k线图，无奈太复杂了，而且很难做成自己想要的样子。无奈之下看了下d3，发现原来这么好用，这么简单，几行代码就能把想表达的东西画出来了。大喜……&lt;/p&gt;
 &lt;p&gt;然后又想到已经好久没写博文了，就写下来吧。&lt;/p&gt;
 &lt;h3&gt;准备&lt;/h3&gt;

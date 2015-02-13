@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>我来我往的博客</title><link href="/" rel="alternate"></link><link href="http://blog.jyd.me/feeds/jyd.atom.xml" rel="self"></link><id>/</id><updated>2015-02-12T11:22:25+08:00</updated><entry><title>用D3.js画K线图</title><link href="/ui/k-chart-by-d3.html" rel="alternate"></link><updated>2015-02-12T11:22:25+08:00</updated><author><name>jyd</name></author><id>tag:,2015-02-12:ui/k-chart-by-d3.html</id><summary type="html">&lt;h3&gt;前言&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>我来我往的博客</title><link href="/" rel="alternate"></link><link href="blog.jyd.me/feeds/jyd.atom.xml" rel="self"></link><id>/</id><updated>2015-02-12T11:22:25+08:00</updated><entry><title>用D3.js画K线图</title><link href="/ui/k-chart-by-d3.html" rel="alternate"></link><updated>2015-02-12T11:22:25+08:00</updated><author><name>jyd</name></author><id>tag:,2015-02-12:ui/k-chart-by-d3.html</id><summary type="html">&lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;本来想用echart库来画k线图，无奈太复杂了，而且很难做成自己想要的样子。无奈之下看了下d3，发现原来这么好用，这么简单，几行代码就能把想表达的东西画出来了。大喜……&lt;/p&gt;
 &lt;p&gt;然后又想到已经好久没写博文了，就写下来吧。&lt;/p&gt;
 &lt;h3&gt;准备&lt;/h3&gt;
