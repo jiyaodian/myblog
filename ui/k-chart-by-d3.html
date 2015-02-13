@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="jyd" />
+        <meta name="copyright" content="jyd" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="d3, ui, ui, " />
+
+<meta property="og:title" content="用D3.js画K线图 "/>
+<meta property="og:url" content="/ui/k-chart-by-d3.html" />
+<meta property="og:description" content="用D3画K线图" />
+<meta property="og:site_name" content="我来我往的博客" />
+<meta property="og:article:author" content="jyd" />
+<meta property="og:article:published_time" content="2015-02-12T11:22:25+08:00" />
+<meta name="twitter:title" content="用D3.js画K线图 ">
+<meta name="twitter:description" content="用D3画K线图">
+
+        <title>用D3.js画K线图  · 我来我往的博客
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" media="screen">
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="我来我往的博客 - Full Atom Feed" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="/"><span class=site-name>我来我往的博客</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="">Home</a></li>
+                            <li ><a href="/about.html">关于本人</a></li>
+                            <li ><a href="/guestbook.html">留言板</a></li>
+                            <li ><a href="/categories.html">分类</a></li>
+                            <li ><a href="/tags.html">标签</a></li>
+                            <li ><a href="/archives.html">文章列表</a></li>
+                            <li><form class="navbar-search" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+    <h1><a href="/ui/k-chart-by-d3.html"> 用D3.js画K线图  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            
+            <h3>前言</h3>
+<p>本来想用echart库来画k线图，无奈太复杂了，而且很难做成自己想要的样子。无奈之下看了下d3，发现原来这么好用，这么简单，几行代码就能把想表达的东西画出来了。大喜……</p>
+<p>然后又想到已经好久没写博文了，就写下来吧。</p>
+<h3>准备</h3>
+<p><a href="https://github.com/mbostock/d3/wiki">D3 API参考文档</a></p>
+<p>首先，你得先对HTML、CSS、JS、SVG有一些了解，不了解的建议先去搜索些资料看看。当然，你也可以先往下看看，看到不懂的时候再搜索。</p>
+<p>接着，当然就是安装D3啦, 到<a href="http://d3js.org/">D3官网</a>看下怎么安装吧。其实就是下载代码，然后在页面中引入，也可以直接复制下面代码都页面中。</p>
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://d3js.org/d3.v3.min.js&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+
+<p>最后，新建个html文件，代码如下</p>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>d3 k-chart<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://d3js.org/d3.v3.min.js&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+<span class="c1">//之后的代码都写在这里</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+
+<p>要画k线图，首先得先有数据。</p>
+<div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-16&#39;</span><span class="p">,</span> <span class="mf">25.000</span><span class="p">,</span> <span class="mf">24.900</span><span class="p">,</span> <span class="mf">26.800</span><span class="p">,</span> <span class="mf">26.440</span><span class="p">,</span> <span class="mi">1171773</span><span class="p">,</span> <span class="mf">3013978000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-19&#39;</span><span class="p">,</span> <span class="mf">26.210</span><span class="p">,</span> <span class="mf">26.000</span><span class="p">,</span> <span class="mf">27.490</span><span class="p">,</span> <span class="mf">26.960</span><span class="p">,</span> <span class="mi">524161</span><span class="p">,</span> <span class="mf">1393216000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-20&#39;</span><span class="p">,</span> <span class="mf">27.100</span><span class="p">,</span> <span class="mf">26.650</span><span class="p">,</span> <span class="mf">27.590</span><span class="p">,</span> <span class="mf">26.880</span><span class="p">,</span> <span class="mi">274802</span><span class="p">,</span> <span class="mf">744248000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-21&#39;</span><span class="p">,</span> <span class="mf">27.140</span><span class="p">,</span> <span class="mf">26.290</span><span class="p">,</span> <span class="mf">27.650</span><span class="p">,</span> <span class="mf">26.390</span><span class="p">,</span> <span class="mi">221804</span><span class="p">,</span> <span class="mf">599846800.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-22&#39;</span><span class="p">,</span> <span class="mf">25.960</span><span class="p">,</span> <span class="mf">25.560</span><span class="p">,</span> <span class="mf">27.200</span><span class="p">,</span> <span class="mf">26.800</span><span class="p">,</span> <span class="mi">147229</span><span class="p">,</span> <span class="mf">386845500.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-23&#39;</span><span class="p">,</span> <span class="mf">26.520</span><span class="p">,</span> <span class="mf">25.820</span><span class="p">,</span> <span class="mf">27.170</span><span class="p">,</span> <span class="mf">27.090</span><span class="p">,</span> <span class="mi">126590</span><span class="p">,</span> <span class="mf">337348500.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-26&#39;</span><span class="p">,</span> <span class="mf">26.710</span><span class="p">,</span> <span class="mf">26.490</span><span class="p">,</span> <span class="mf">27.320</span><span class="p">,</span> <span class="mf">26.710</span><span class="p">,</span> <span class="mi">74700</span><span class="p">,</span> <span class="mf">200983900.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-27&#39;</span><span class="p">,</span> <span class="mf">26.450</span><span class="p">,</span> <span class="mf">26.020</span><span class="p">,</span> <span class="mf">29.380</span><span class="p">,</span> <span class="mf">27.070</span><span class="p">,</span> <span class="mi">139441</span><span class="p">,</span> <span class="mf">385938100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-28&#39;</span><span class="p">,</span> <span class="mf">26.470</span><span class="p">,</span> <span class="mf">25.130</span><span class="p">,</span> <span class="mf">27.420</span><span class="p">,</span> <span class="mf">27.120</span><span class="p">,</span> <span class="mi">107477</span><span class="p">,</span> <span class="mf">284469300.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-29&#39;</span><span class="p">,</span> <span class="mf">26.610</span><span class="p">,</span> <span class="mf">26.610</span><span class="p">,</span> <span class="mf">28.300</span><span class="p">,</span> <span class="mf">28.120</span><span class="p">,</span> <span class="mi">99828</span><span class="p">,</span> <span class="mf">277077400.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-30&#39;</span><span class="p">,</span> <span class="mf">27.970</span><span class="p">,</span> <span class="mf">27.800</span><span class="p">,</span> <span class="mf">28.690</span><span class="p">,</span> <span class="mf">27.870</span><span class="p">,</span> <span class="mi">113659</span><span class="p">,</span> <span class="mf">320882300.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-04&#39;</span><span class="p">,</span> <span class="mf">27.920</span><span class="p">,</span> <span class="mf">27.700</span><span class="p">,</span> <span class="mf">28.550</span><span class="p">,</span> <span class="mf">27.970</span><span class="p">,</span> <span class="mi">76590</span><span class="p">,</span> <span class="mf">215469100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-05&#39;</span><span class="p">,</span> <span class="mf">27.940</span><span class="p">,</span> <span class="mf">26.880</span><span class="p">,</span> <span class="mf">28.420</span><span class="p">,</span> <span class="mf">27.100</span><span class="p">,</span> <span class="mi">89823</span><span class="p">,</span> <span class="mf">248863800.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-06&#39;</span><span class="p">,</span> <span class="mf">26.600</span><span class="p">,</span> <span class="mf">26.600</span><span class="p">,</span> <span class="mf">28.210</span><span class="p">,</span> <span class="mf">28.140</span><span class="p">,</span> <span class="mi">61342</span><span class="p">,</span> <span class="mf">168226600.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-09&#39;</span><span class="p">,</span> <span class="mf">28.090</span><span class="p">,</span> <span class="mf">27.610</span><span class="p">,</span> <span class="mf">29.550</span><span class="p">,</span> <span class="mf">29.380</span><span class="p">,</span> <span class="mi">67159</span><span class="p">,</span> <span class="mf">192597700.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-10&#39;</span><span class="p">,</span> <span class="mf">29.380</span><span class="p">,</span> <span class="mf">29.000</span><span class="p">,</span> <span class="mf">30.300</span><span class="p">,</span> <span class="mf">30.120</span><span class="p">,</span> <span class="mi">84051</span><span class="p">,</span> <span class="mf">250574200.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-11&#39;</span><span class="p">,</span> <span class="mf">29.950</span><span class="p">,</span> <span class="mf">29.100</span><span class="p">,</span> <span class="mf">30.200</span><span class="p">,</span> <span class="mf">29.870</span><span class="p">,</span> <span class="mi">47952</span><span class="p">,</span> <span class="mf">142677200.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-12&#39;</span><span class="p">,</span> <span class="mf">29.620</span><span class="p">,</span> <span class="mf">29.620</span><span class="p">,</span> <span class="mf">30.950</span><span class="p">,</span> <span class="mf">30.380</span><span class="p">,</span> <span class="mi">55554</span><span class="p">,</span> <span class="mf">168174300.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-13&#39;</span><span class="p">,</span> <span class="mf">30.480</span><span class="p">,</span> <span class="mf">28.950</span><span class="p">,</span> <span class="mf">30.580</span><span class="p">,</span> <span class="mf">29.870</span><span class="p">,</span> <span class="mi">49726</span><span class="p">,</span> <span class="mf">147160100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-16&#39;</span><span class="p">,</span> <span class="mf">29.500</span><span class="p">,</span> <span class="mf">28.130</span><span class="p">,</span> <span class="mf">29.770</span><span class="p">,</span> <span class="mf">28.280</span><span class="p">,</span> <span class="mi">36006</span><span class="p">,</span> <span class="mf">105667100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-17&#39;</span><span class="p">,</span> <span class="mf">28.580</span><span class="p">,</span> <span class="mf">28.500</span><span class="p">,</span> <span class="mf">30.920</span><span class="p">,</span> <span class="mf">30.870</span><span class="p">,</span> <span class="mi">91777</span><span class="p">,</span> <span class="mf">271016900.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-18&#39;</span><span class="p">,</span> <span class="mf">30.540</span><span class="p">,</span> <span class="mf">29.180</span><span class="p">,</span> <span class="mf">30.900</span><span class="p">,</span> <span class="mf">29.730</span><span class="p">,</span> <span class="mi">64588</span><span class="p">,</span> <span class="mf">195056000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-19&#39;</span><span class="p">,</span> <span class="mf">29.730</span><span class="p">,</span> <span class="mf">29.370</span><span class="p">,</span> <span class="mf">30.600</span><span class="p">,</span> <span class="mf">30.210</span><span class="p">,</span> <span class="mi">38141</span><span class="p">,</span> <span class="mf">115276000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-20&#39;</span><span class="p">,</span> <span class="mf">30.100</span><span class="p">,</span> <span class="mf">30.100</span><span class="p">,</span> <span class="mf">32.220</span><span class="p">,</span> <span class="mf">31.890</span><span class="p">,</span> <span class="mi">66314</span><span class="p">,</span> <span class="mf">207219200.00</span><span class="p">]</span>
+    <span class="p">];</span>
+</pre></div>
+
+
+<p>其中，每个字段分别是日期，开盘价、最低价、最高价、收盘价、交易量、交易金额。</p>
+<h3>只有开盘价和收盘价的k线图</h3>
+<p>好了，现在有数据了。那第一步先画什么呢？先根据开盘价和收盘价画那个矩形吧！
+先来个简单的矩形。</p>
+<div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="mi">800</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+    <span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;fill&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>第一行代码会在body标签里面加入一个宽800px、高200px的SVG标签，这个可以认为是个画布，矩形要画在这个里面。</p>
+<p>第二行代码就是在SVG标签里面加进去一个红色矩形框。</p>
+<p>这里用到了三个函数，</p>
+<ul>
+<li>d3.select(): dom选择函数，可以根据标签、类、ID、属性等来选择。</li>
+<li>selection.append()：添加一个新元素到当前选择器中，这里是加到svg标签中，并返回新添加的标签选择器。</li>
+<li>selection.attr()：设置当前选择器的属性值。rect包含x、y、width、height等属性，分别指定矩形的坐标和宽高，具体请参考SVG相关文档(给出链接)。</li>
+</ul>
+<p><img alt="矩形" src="/images/d3-rect.png" /></p>
+<p>太简单了？那就直接进入主题吧。先贴代码~</p>
+<div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="nx">h</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="nx">w</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">price_min</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">price_max</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">yscale</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">linear</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">domain</span><span class="p">([</span><span class="nx">price_min</span><span class="p">,</span> <span class="nx">price_max</span><span class="p">])</span>
+        <span class="p">.</span><span class="nx">range</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nx">h</span><span class="p">]);</span>
+    <span class="kd">var</span> <span class="nx">rect_attr</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">([</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]]));</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;width&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">4</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;height&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">yscale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]));</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;fill&quot;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">return</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">return</span> <span class="s1">&#39;green&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">).</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="nx">rect_attr</span><span class="p">);</span>
+</pre></div>
+
+
+<p>效果：
+<img alt="矩形2" src="/images/d3-rect2.png" /></p>
+<p>怎样？有点感觉了吧？
+来解释下代码吧~</p>
+<p>a. 新建个画布。</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="nx">w</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span>
+</pre></div>
+
+
+<p>b. 取得所有价格的最大值和最小值，我用了d3.min和d3.max函数。当然，这里完全可以来两个for循环找出最大值和最小值的。</p>
+<div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">price_min</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="p">});</span>
+        <span class="kd">var</span> <span class="nx">price_max</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="p">});</span>
+</pre></div>
+
+
+<p>c. 定义归一化函数: yscale。 函数yscale()的功能就是把数字区间[price_min, price_max]映射到区间[0, h]上。 </p>
+<div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">yscale</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">linear</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">domain</span><span class="p">([</span><span class="nx">price_min</span><span class="p">,</span> <span class="nx">price_max</span><span class="p">])</span>
+        <span class="p">.</span><span class="nx">range</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nx">h</span><span class="p">]);</span>
+</pre></div>
+
+
+<p>假设price_min = 100, price_max=200, h=10.  那么</p>
+<ul>
+<li>yscale(100) =&gt; 0</li>
+<li>yscale(200) =&gt; 10</li>
+<li>yscale(150) =&gt; 5</li>
+<li>yscale(120) =&gt; 2</li>
+<li>yscale(122) =&gt; 2.2</li>
+</ul>
+<p>为什么要有这么一个映射函数呢？因为我们要画的是k线图，图中的y轴只需要能显示最低价格和最高价格就行了，没必要从0开始，所以要把价格映射到(0, h)区间内，方便显示。</p>
+<p>d. 定义矩形的属性值。</p>
+<ul>
+<li>x、y确定矩形的坐标。SVG的坐标系（0,0)点在左上角，横轴是x, 纵轴是y。</li>
+<li>width、height确定矩形的宽和高</li>
+<li>fill则定义矩形的颜色</li>
+</ul>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">rect_attr</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">([</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]]));</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;width&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">4</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;height&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">yscale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]));</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;fill&quot;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">return</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">return</span> <span class="s1">&#39;green&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+</pre></div>
+
+
+<p>当d3在设置矩形属性值的时候，它会调用我们定义的函数 function(d, i),这里的d对应一个矩形的数据【也是dataset一条数据】，i则是这条数据的编号，从0开始，最大值是dataset.length-1。</p>
+<ul>
+<li>属性 x:  i * (w / dataset.length), 这样可以矩形均匀的分布在画布中。</li>
+<li>属性 y: h - yscale(d3.max(d[1], d[4])), 因为坐标(0, 0)点是在左上角的，所以</li>
+<li>属性 width: w / dataset.length - 4, 你可以试试把-4去掉，看看效果。</li>
+<li>属性 height: Math.abs(yscale(d[1]) - yscale(d[4]))</li>
+<li>属性 fille: 当开盘价d[1]小于收盘价d[4]的时候为红色，否则绿色。</li>
+</ul>
+<p>e. 根据dataset数据生成矩形，并设定个个矩形的属性值。</p>
+<div class="highlight"><pre><span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">).</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="nx">rect_attr</span><span class="p">);</span>
+</pre></div>
+
+
+<h3>有最高价、最低价的K线图</h3>
+<p>效果
+<img alt="初版k线图" src="/images/d3-k1.png" />
+怎样，更有感觉了吧~
+只需要在之前代码后面再加上下面这个代码就行了~</p>
+<div class="highlight"><pre><span class="nx">data_cnt</span> <span class="o">=</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="nx">barPadding</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">({</span>
+        <span class="s1">&#39;x1&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">data_cnt</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">data_cnt</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;x2&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">data_cnt</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">data_cnt</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;y1&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)));</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;y2&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)));</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;stroke&quot;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">return</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">return</span> <span class="s1">&#39;green&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+</pre></div>
+
+
+<p>文章还是不要太长了，这篇就先到这吧~下一篇继续讲~</p>
+<p>最后附上全部代码(对代码风格做了点修改)：</p>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>d3 k-chart<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://libs.useso.com/js/d3/3.4.8/d3.min.js&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+    <span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-16&#39;</span><span class="p">,</span> <span class="mf">25.000</span><span class="p">,</span> <span class="mf">24.900</span><span class="p">,</span> <span class="mf">26.800</span><span class="p">,</span> <span class="mf">26.440</span><span class="p">,</span> <span class="mi">1171773</span><span class="p">,</span> <span class="mf">3013978000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-19&#39;</span><span class="p">,</span> <span class="mf">26.210</span><span class="p">,</span> <span class="mf">26.000</span><span class="p">,</span> <span class="mf">27.490</span><span class="p">,</span> <span class="mf">26.960</span><span class="p">,</span> <span class="mi">524161</span><span class="p">,</span> <span class="mf">1393216000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-20&#39;</span><span class="p">,</span> <span class="mf">27.100</span><span class="p">,</span> <span class="mf">26.650</span><span class="p">,</span> <span class="mf">27.590</span><span class="p">,</span> <span class="mf">26.880</span><span class="p">,</span> <span class="mi">274802</span><span class="p">,</span> <span class="mf">744248000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-21&#39;</span><span class="p">,</span> <span class="mf">27.140</span><span class="p">,</span> <span class="mf">26.290</span><span class="p">,</span> <span class="mf">27.650</span><span class="p">,</span> <span class="mf">26.390</span><span class="p">,</span> <span class="mi">221804</span><span class="p">,</span> <span class="mf">599846800.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-22&#39;</span><span class="p">,</span> <span class="mf">25.960</span><span class="p">,</span> <span class="mf">25.560</span><span class="p">,</span> <span class="mf">27.200</span><span class="p">,</span> <span class="mf">26.800</span><span class="p">,</span> <span class="mi">147229</span><span class="p">,</span> <span class="mf">386845500.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-23&#39;</span><span class="p">,</span> <span class="mf">26.520</span><span class="p">,</span> <span class="mf">25.820</span><span class="p">,</span> <span class="mf">27.170</span><span class="p">,</span> <span class="mf">27.090</span><span class="p">,</span> <span class="mi">126590</span><span class="p">,</span> <span class="mf">337348500.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-26&#39;</span><span class="p">,</span> <span class="mf">26.710</span><span class="p">,</span> <span class="mf">26.490</span><span class="p">,</span> <span class="mf">27.320</span><span class="p">,</span> <span class="mf">26.710</span><span class="p">,</span> <span class="mi">74700</span><span class="p">,</span> <span class="mf">200983900.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-27&#39;</span><span class="p">,</span> <span class="mf">26.450</span><span class="p">,</span> <span class="mf">26.020</span><span class="p">,</span> <span class="mf">29.380</span><span class="p">,</span> <span class="mf">27.070</span><span class="p">,</span> <span class="mi">139441</span><span class="p">,</span> <span class="mf">385938100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-28&#39;</span><span class="p">,</span> <span class="mf">26.470</span><span class="p">,</span> <span class="mf">25.130</span><span class="p">,</span> <span class="mf">27.420</span><span class="p">,</span> <span class="mf">27.120</span><span class="p">,</span> <span class="mi">107477</span><span class="p">,</span> <span class="mf">284469300.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-29&#39;</span><span class="p">,</span> <span class="mf">26.610</span><span class="p">,</span> <span class="mf">26.610</span><span class="p">,</span> <span class="mf">28.300</span><span class="p">,</span> <span class="mf">28.120</span><span class="p">,</span> <span class="mi">99828</span><span class="p">,</span> <span class="mf">277077400.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2011-12-30&#39;</span><span class="p">,</span> <span class="mf">27.970</span><span class="p">,</span> <span class="mf">27.800</span><span class="p">,</span> <span class="mf">28.690</span><span class="p">,</span> <span class="mf">27.870</span><span class="p">,</span> <span class="mi">113659</span><span class="p">,</span> <span class="mf">320882300.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-04&#39;</span><span class="p">,</span> <span class="mf">27.920</span><span class="p">,</span> <span class="mf">27.700</span><span class="p">,</span> <span class="mf">28.550</span><span class="p">,</span> <span class="mf">27.970</span><span class="p">,</span> <span class="mi">76590</span><span class="p">,</span> <span class="mf">215469100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-05&#39;</span><span class="p">,</span> <span class="mf">27.940</span><span class="p">,</span> <span class="mf">26.880</span><span class="p">,</span> <span class="mf">28.420</span><span class="p">,</span> <span class="mf">27.100</span><span class="p">,</span> <span class="mi">89823</span><span class="p">,</span> <span class="mf">248863800.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-06&#39;</span><span class="p">,</span> <span class="mf">26.600</span><span class="p">,</span> <span class="mf">26.600</span><span class="p">,</span> <span class="mf">28.210</span><span class="p">,</span> <span class="mf">28.140</span><span class="p">,</span> <span class="mi">61342</span><span class="p">,</span> <span class="mf">168226600.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-09&#39;</span><span class="p">,</span> <span class="mf">28.090</span><span class="p">,</span> <span class="mf">27.610</span><span class="p">,</span> <span class="mf">29.550</span><span class="p">,</span> <span class="mf">29.380</span><span class="p">,</span> <span class="mi">67159</span><span class="p">,</span> <span class="mf">192597700.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-10&#39;</span><span class="p">,</span> <span class="mf">29.380</span><span class="p">,</span> <span class="mf">29.000</span><span class="p">,</span> <span class="mf">30.300</span><span class="p">,</span> <span class="mf">30.120</span><span class="p">,</span> <span class="mi">84051</span><span class="p">,</span> <span class="mf">250574200.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-11&#39;</span><span class="p">,</span> <span class="mf">29.950</span><span class="p">,</span> <span class="mf">29.100</span><span class="p">,</span> <span class="mf">30.200</span><span class="p">,</span> <span class="mf">29.870</span><span class="p">,</span> <span class="mi">47952</span><span class="p">,</span> <span class="mf">142677200.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-12&#39;</span><span class="p">,</span> <span class="mf">29.620</span><span class="p">,</span> <span class="mf">29.620</span><span class="p">,</span> <span class="mf">30.950</span><span class="p">,</span> <span class="mf">30.380</span><span class="p">,</span> <span class="mi">55554</span><span class="p">,</span> <span class="mf">168174300.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-13&#39;</span><span class="p">,</span> <span class="mf">30.480</span><span class="p">,</span> <span class="mf">28.950</span><span class="p">,</span> <span class="mf">30.580</span><span class="p">,</span> <span class="mf">29.870</span><span class="p">,</span> <span class="mi">49726</span><span class="p">,</span> <span class="mf">147160100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-16&#39;</span><span class="p">,</span> <span class="mf">29.500</span><span class="p">,</span> <span class="mf">28.130</span><span class="p">,</span> <span class="mf">29.770</span><span class="p">,</span> <span class="mf">28.280</span><span class="p">,</span> <span class="mi">36006</span><span class="p">,</span> <span class="mf">105667100.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-17&#39;</span><span class="p">,</span> <span class="mf">28.580</span><span class="p">,</span> <span class="mf">28.500</span><span class="p">,</span> <span class="mf">30.920</span><span class="p">,</span> <span class="mf">30.870</span><span class="p">,</span> <span class="mi">91777</span><span class="p">,</span> <span class="mf">271016900.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-18&#39;</span><span class="p">,</span> <span class="mf">30.540</span><span class="p">,</span> <span class="mf">29.180</span><span class="p">,</span> <span class="mf">30.900</span><span class="p">,</span> <span class="mf">29.730</span><span class="p">,</span> <span class="mi">64588</span><span class="p">,</span> <span class="mf">195056000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-19&#39;</span><span class="p">,</span> <span class="mf">29.730</span><span class="p">,</span> <span class="mf">29.370</span><span class="p">,</span> <span class="mf">30.600</span><span class="p">,</span> <span class="mf">30.210</span><span class="p">,</span> <span class="mi">38141</span><span class="p">,</span> <span class="mf">115276000.00</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;2012-01-20&#39;</span><span class="p">,</span> <span class="mf">30.100</span><span class="p">,</span> <span class="mf">30.100</span><span class="p">,</span> <span class="mf">32.220</span><span class="p">,</span> <span class="mf">31.890</span><span class="p">,</span> <span class="mi">66314</span><span class="p">,</span> <span class="mf">207219200.00</span><span class="p">]</span>
+    <span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">dataCnt</span> <span class="o">=</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="nx">h</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">barPadding</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="nx">w</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">priceMin</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">priceMax</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="p">});</span>
+
+    <span class="kd">var</span> <span class="nx">yscale</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">linear</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">domain</span><span class="p">([</span><span class="nx">priceMin</span><span class="p">,</span> <span class="nx">priceMax</span><span class="p">])</span>
+        <span class="p">.</span><span class="nx">range</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nx">h</span><span class="p">]);</span>
+
+    <span class="kd">var</span> <span class="nx">rectAttr</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataCnt</span><span class="p">)</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">([</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]]));</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;width&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">w</span> <span class="o">/</span> <span class="nx">dataCnt</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;height&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">yscale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]));</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;fill&quot;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">return</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">return</span> <span class="s1">&#39;green&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">).</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="nx">rectAttr</span><span class="p">);</span>
+
+    <span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">attr</span><span class="p">({</span>
+            <span class="s1">&#39;x1&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataCnt</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataCnt</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;x2&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataCnt</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataCnt</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;y1&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)));</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;y2&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">yscale</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)));</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;stroke&quot;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">d</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">return</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+                <span class="k">else</span> <span class="k">return</span> <span class="s1">&#39;green&#39;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+            
+            <section>
+        <!-- 多说评论框 start -->
+            <div class="ds-thread" data-thread-key="k-chart-by-d3" data-title="用D3.js画K线图" data-url="ui/k-chart-by-d3.html"></div>
+
+</section>
+
+            <hr/>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2015-02-12T11:22:25+08:00"> 2 12, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#ui-ref">ui</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="/tags.html#d3-ref">d3
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#ui-ref">ui
+                    <span>1</span>
+</a></li>
+            </ul>
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+        <div id="push"></div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-subtitle"><span class="site-name">我来我往的博客</span> - Follow Your Heart</li>
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+            <script type="text/javascript">
+var duoshuoQuery = {short_name:"jydblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+    License : http://oncrashreboot.com/pelican-elegant -->
+</html>
