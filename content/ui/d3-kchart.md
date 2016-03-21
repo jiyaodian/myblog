@@ -8,6 +8,7 @@ Lang: zh
 Summary: 用D3画K线图
 
 ### 前言
+
 本来想用echart库来画k线图，无奈太复杂了，而且很难做成自己想要的样子。无奈之下看了下d3，发现原来这么好用，这么简单，几行代码就能把想表达的东西画出来了。大喜……
 
 然后又想到已经好久没写博文了，就写下来吧。
@@ -79,8 +80,8 @@ Summary: 用D3画K线图
 好了，现在有数据了。那第一步先画什么呢？先根据开盘价和收盘价画那个矩形吧！
 先来个简单的矩形。
 ```javascript
-    var svg = d3.select("body").append('svg').attr('width', 800).attr('height', 200);
-    svg.append('rect').attr('x', 10).attr('y', 10).attr('width', 100).attr('height', 100).attr('fill', 'red');
+var svg = d3.select("body").append('svg').attr('width', 800).attr('height', 200);
+svg.append('rect').attr('x', 10).attr('y', 10).attr('width', 100).attr('height', 100).attr('fill', 'red');
 ```
 第一行代码会在body标签里面加入一个宽800px、高200px的SVG标签，这个可以认为是个画布，矩形要画在这个里面。
 
@@ -97,36 +98,36 @@ Summary: 用D3画K线图
 太简单了？那就直接进入主题吧。先贴代码~
 
 ```javascript
-    var w = 500, h = 200;
-    var svg = d3.select("body").append('svg').attr('width', w).attr('height', h);
-    var price_min = d3.min(dataset, function (d) {
-        return d3.min(d.slice(1, 5))
-    });
-    var price_max = d3.max(dataset, function (d) {
-        return d3.max(d.slice(1, 5))
-    });
-    var yscale = d3.scale.linear()
-        .domain([price_min, price_max])
-        .range([0, h]);
-    var rect_attr = {
-        'x': function (d, i) {
-            return i * (w / dataset.length);
-        },
-        'y': function (d, i) {
-            return h - yscale(d3.max([d[1], d[4]]));
-        },
-        'width': function (d, i) {
-            return w / dataset.length - 4;
-        },
-        'height': function (d, i) {
-            return Math.abs(yscale(d[1]) - yscale(d[4]));
-        },
-        "fill": function (d) {
-            if (d[1] < d[4]) return 'red';
-            else return 'green';
-        }
-    };
-    svg.selectAll('rect').data(dataset).enter().append('rect').attr(rect_attr);
+var w = 500, h = 200;
+var svg = d3.select("body").append('svg').attr('width', w).attr('height', h);
+var price_min = d3.min(dataset, function (d) {
+    return d3.min(d.slice(1, 5))
+});
+var price_max = d3.max(dataset, function (d) {
+    return d3.max(d.slice(1, 5))
+});
+var yscale = d3.scale.linear()
+    .domain([price_min, price_max])
+    .range([0, h]);
+var rect_attr = {
+    'x': function (d, i) {
+        return i * (w / dataset.length);
+    },
+    'y': function (d, i) {
+        return h - yscale(d3.max([d[1], d[4]]));
+    },
+    'width': function (d, i) {
+        return w / dataset.length - 4;
+    },
+    'height': function (d, i) {
+        return Math.abs(yscale(d[1]) - yscale(d[4]));
+    },
+    "fill": function (d) {
+        if (d[1] < d[4]) return 'red';
+        else return 'green';
+    }
+};
+svg.selectAll('rect').data(dataset).enter().append('rect').attr(rect_attr);
 ```
 
 效果：
@@ -208,7 +209,7 @@ svg.selectAll('rect').data(dataset).enter().append('rect').attr(rect_attr);
 效果
 ![初版k线图](/images/d3-k1.png)
 怎样，更有感觉了吧~
-只需要在之前代码后面再加上下面这个代码就行了~
+其实只需要根据最高价和最低价画直线就行了，SVG里面直线的标签是 line。 所以依样画葫芦，只需要在之前代码后面再加上下面这个代码就行了~
 ```javascript
 data_cnt = dataset.length;
 barPadding = 4;
